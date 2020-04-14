@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout::head">
+</head>
+<body>
+	<header th:replace="layout/layout::header"></header>
+	<div class="container col-md-10 py-4">
+		<div class="card bg-light">
+			<div class="card-header">
+				<h1 class="text-secondary" th:text="${titulo}"></h1>
+
+			</div>
+			<div class="card-body">
+				<img class="img-thumbnail rounded float-left"
+					th:if="${cliente.avatar != null}" style="max-width: 25%"
+					th:src="@{'/upload/'+ ${cliente.avatar}}" th:alt="${cliente.avatar}" />
+				<img class="img-thumbnail rounded float-left"
+					th:if="${cliente.avatar ==  null}" style="max-width: 25%"
+					th:src="@{'https://api.adorable.io/avatars/500/' + ${cliente.email} +'.png'}"
+					alt="Avatar por defecto" />
+
+				<ul class="list-group">
+					<li class="list-group-item" th:text="${cliente.nombre}"></li>
+					<li class="list-group-item" th:text="${cliente.apellidos}"></li>
+					<li class="list-group-item" th:text="${cliente.email}"></li>
+					<li class="list-group-item" th:text="${cliente.createAt}"></li>
+				</ul>
+			</div>
+
+		</div>
+	</div>
+
+
+
+	<footer th:replace="layout/layout::footer"></footer>
+</body>
+</html>
