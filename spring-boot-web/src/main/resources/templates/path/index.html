@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Enviar Params</title>
+</head>
+<body>
+<ul>
+	<li><a th:href="@{/path/string/} + 'Hola que tal'">/path/string/Hola que tal</a></li>
+	<li><a th:href="@{/path/string/} + 'Bien y tu?'">/path/string/Bien y tu</a></li>
+	<li><a th:href="@{/path/string/} + 'Edad' + '/' + 7">/path/string/Edad/7</a></li>
+	<li><a th:href="@{/path/string/} + 'Edad' + '/' + 20">/path/string/Edad/20</a></li></ul>
+</body>
+</html>

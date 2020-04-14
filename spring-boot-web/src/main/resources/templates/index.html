@@ -3,8 +3,11 @@
 <head>
 <meta charset="UTF-8"/>
 <title th:text="${titulo}">Titulo</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"></link>
 </head>
 <body>
-<h1 th:text="${titulo}">Hola Spring!</h1>
+<h1 class="color-red" th:text="${titulo}">Hola Spring!</h1>
+<h1 class="color-blue">Hola Spring en azul!</h1>
+<img th:src="@{/images/sticker.jpg}"/>
 </body>
 </html>
