@@ -63,7 +63,7 @@ public class ClienteController {
 				.body(resource);
 	}
 
-	@GetMapping({ "/clientes/{page}", "/clientes" })
+	@GetMapping({ "/clientes/{page}", "/clientes", "/"})
 	public String listar(Model model, @PathVariable Optional<Integer> page) {
 		Page<Cliente> clientes = clienteService.findAll(PageRequest.of(page.orElse(0), 4));
 
