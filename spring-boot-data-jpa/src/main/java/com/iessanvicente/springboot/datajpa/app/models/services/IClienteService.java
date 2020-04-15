@@ -13,6 +13,7 @@ public interface IClienteService {
 	List<Cliente> findAll();
 	Page<Cliente> findAll(Pageable pageable);
 	Cliente findById(Long id);
+	Cliente fetchById(Long id);
 	void save(Cliente cliente);
 	void deleteById(Long id);
 	List<Producto> findProducto(String filter);
@@ -20,4 +21,5 @@ public interface IClienteService {
 	Producto findProductoById(Long id);
 	Factura findFacturaById(Long id);
 	void deleteFacturaById(Long id);
+	public Factura fetchFacturaById(Long id);
 }

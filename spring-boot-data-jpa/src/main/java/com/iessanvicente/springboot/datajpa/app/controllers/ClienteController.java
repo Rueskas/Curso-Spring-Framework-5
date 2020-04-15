@@ -40,7 +40,8 @@ public class ClienteController {
 
 	@GetMapping("cliente/{id}")
 	public String detalle(@PathVariable Long id, Model model, RedirectAttributes flash) {
-		Cliente cliente = clienteService.findById(id);
+		//Cliente cliente = clienteService.findById(id);
+		Cliente cliente = clienteService.fetchById(id);
 		if (cliente == null) {
 			flash.addFlashAttribute("error", "El cliente no se ha encontrado");
 			return "redirect:/app/clientes";

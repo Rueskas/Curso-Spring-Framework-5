@@ -34,8 +34,8 @@ public class FacturaController {
 	
 	@GetMapping("/{id}")
 	public String detalle(@PathVariable Long id, Model model, RedirectAttributes flash) {
-		Factura factura = clienteService.findFacturaById(id);
-		
+		//Factura factura = clienteService.findFacturaById(id);
+		Factura factura = clienteService.fetchFacturaById(id);
 		if(factura == null) {
 			flash.addFlashAttribute("error", "No se ha encontrado la factura");
 			return "redirect:/app/clientes";
