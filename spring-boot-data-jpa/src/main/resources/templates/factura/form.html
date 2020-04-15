@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout::head">
+</head>
+<body>
+	<header th:replace="layout/layout::header"></header>
+	<div class="container col-md-10 py-4">
+		<div class="card bg-dark text-white">
+			<div class="card-header">
+				<h1 class="text-white" th:text="${titulo}"></h1>
+			</div>
+			<div class="card-body">
+				<form th:action="@{/app/factura/form}" th:object="${factura}"
+					method="POST">
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Cliente</label>
+						<div class="col-sm-6">
+							<input
+								th:value="${factura.cliente.nombre} + ' ' + ${factura.cliente.apellidos}"
+								disabled class="form-control" />
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Descripcion</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{descripcion}" name="descripcion"
+								id="descripcion" class="form-control"
+								th:errorclass="'form-control alert-danger'" /> <small
+								th:if="${#fields.hasErrors('descripcion')}"
+								th:errors="*{descripcion}" class="form-text text-danger"></small>
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Observacion</label>
+						<div class="col-sm-6">
+							<textarea th:field="*{observacion}" name="observacion"
+								id="observacion" class="form-control"></textarea>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="buscar_producto" class="col-sm-2 col-form-label">Buscar Producto</label>
+						<div class="col-sm-6">
+							<input type="text" name="buscar_producto" id="buscar_producto"
+								class="form-control"/>
+						</div>
+					</div>
+					<table th:replace="factura/plantilla-item::itemsFactura"></table>
+					<table id="cargarItemsProductos" class="table table-light table-sm table-striped table-hover">
+						<thead class="thead-dark">
+							<tr>
+								<th>Nombre</th>
+								<th>Precio</th>
+								<th>Cantidad</th>
+								<th>Total</th>
+								<th>Eliminar</th>
+							</tr>
+						</thead>
+						
+						<tbody class="tbody-light">
+						
+						</tbody>
+					</table>
+					<h5 class="mx-2 my-4">Total: <span class="badge badge-secondary" id="gran_total"></span></h5>
+					<div class="form-group row">
+						<input type="submit" th:value="${titulo}"
+							class="btn btn-secondary mx-4" />
+					</div>
+				</form>
+				
+			<h4 class="card-title mx-2 row">
+				<a class="btn btn-light" th:text="'&laquo; Volver'" th:href="@{'/app/cliente/' + ${factura.cliente.id}}"></a>
+			</h4>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="layout/layout::footer"></footer>
+	<script th:replace="factura/js/autocomplete-productos::javascript"></script>
+
+</body>
+</html>

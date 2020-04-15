@@ -25,6 +25,7 @@
 						<th>Apellidos</th>
 						<th>Email</th>
 						<th>Fecha</th>
+						<th>Factura</th>
 						<th>Editar</th>
 						<th>Eliminar</th>
 					</tr>
@@ -36,8 +37,10 @@
 						<td th:text="${cliente.apellidos}"></td>
 						<td th:text="${cliente.email}"></td>
 						<td th:text="${cliente.createAt}"></td>
+						<td><a th:href="@{/app/factura/form/} + ${cliente.id}"
+							th:text="Crear" class="btn btn-success btn-xs"></a></td>
 						<td><a th:href="@{/app/form/} + ${cliente.id}"
-							th:text="Editar" class="btn btn-success btn-xs"></a></td>
+							th:text="Editar" class="btn btn-primary btn-xs"></a></td>
 						<td><a th:href="@{/app/eliminar/} + ${cliente.id}"
 							th:text="Eliminar" class="btn btn-danger btn-xs"
 							onClick="return confirm('¿Estás seguro que quieres eliminar al cliente?');"></a></td>
