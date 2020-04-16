@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.iessanvicente.springboot.datajpa.app.auth.handler.LoginSuccessHandler;
+import com.iessanvicente.springboot.datajpa.app.models.services.JpaUserDetailsService;
 
 @EnableGlobalMethodSecurity(securedEnabled=true)
 @Configuration
@@ -23,11 +24,19 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private DataSource dataSource;
+	@Autowired
+	private JpaUserDetailsService userDetailsService;
 	
 	@Autowired
 	public void configurerGlobal(AuthenticationManagerBuilder builder) throws Exception{
 		PasswordEncoder encoder = passwordEncoder();
 		
+		builder
+			.userDetailsService(userDetailsService)
+			.passwordEncoder(encoder);
+		
+		/*
+		 * JDBC AUTHENTICATION
 		builder.jdbcAuthentication()
 			.dataSource(dataSource)
 			.passwordEncoder(encoder)
@@ -37,7 +46,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 					+ "FROM authorities a "
 					+ "INNER JOIN users u on (a.user_id = u.id) "
 					+ "WHERE u.username=?");
-		/*UserBuilder users = User.builder().passwordEncoder(encoder::encode);
+		
+		Authentication in Memory
+		UserBuilder users = User.builder().passwordEncoder(encoder::encode);
 		builder.inMemoryAuthentication()
 			.withUser(users.username("admin").password("12345").roles("ADMIN", "USER"))
 			.withUser(users.username("sergio").password("12345").roles("USER"));
