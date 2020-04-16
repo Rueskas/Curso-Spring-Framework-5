@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/springsecurity">
 <head th:fragment="head">
 <meta charset="UTF-8" />
 <title th:text="'Spring Boot: ' + ${titulo}"></title>
-<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
-<link rel="stylesheet" type="text/css" th:href="@{/css/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/jquery-ui.min.css}">
 </head>
 <body>
 	<header th:fragment="header">
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<nav class="navbar navbar-expand-md navbar-dark bg-dark">
 			<a class="navbar-brand" href="#">Spring Boot</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarNav" aria-controls="navbarNav"
@@ -16,7 +19,7 @@
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav">
+				<ul class="navbar-nav mr-auto">
 					<li class="nav-item active"><a class="nav-link"
 						th:href="@{/app/form}">Formulario<span class="sr-only">(current)</span></a>
 					</li>
@@ -24,23 +27,38 @@
 						th:href="@{/app/clientes}">Clientes<span class="sr-only">(current)</span></a>
 					</li>
 				</ul>
+				<ul class="navbar-var navbar-right">
+					<li sec:authorize="!isAuthenticated()"><a
+						class="btn btn-outline-primary" th:href="@{/login}">Iniciar
+							Sesión</a></li>
+					<li class="dropdown show" sec:authorize="isAuthenticated()">
+						<a class="btn btn-outline-danger dropdown-toggle" href="#"
+							role="button" id="dropdownMenuLink" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false"><span sec:authentication="name"></span></a>
+
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+							<form th:action="@{/logout}" id="logoutForm" method="POST">
+								<input value="Log out" type="submit" class="dropdown-item"/>
+							</form>
+						</div>
+					</li>
+
+				</ul>
 			</div>
 		</nav>
-		
-		<div class="alert alert-success" th:if="${success}" th:text="${success}">
-			
-		</div>
-		
+
+		<div class="alert alert-success" th:if="${success}"
+			th:text="${success}"></div>
+
 		<div class="alert alert-danger" th:if="${error}" th:text="${error}">
-			
+
 		</div>
-		
-		<div class="alert alert-warning" th:if="${warning}" th:text="${warning}">
-			
-		</div>
-		
+
+		<div class="alert alert-warning" th:if="${warning}"
+			th:text="${warning}"></div>
+
 		<div class="alert alert-info" th:if="${info}" th:text="${info}">
-			
+
 		</div>
 	</header>
 	<div class="container mt-3"></div>
@@ -48,6 +66,11 @@
 	<footer th:fragment="footer" class="container">
 		<img style="width: 128px;" th:src="@{/images/spring-logo.png}"
 			alt="Spring Logo" />
+		<p sec:authorize="isAuthenticated()">
+			Usuario loggado: <span sec:authentication="name"></span> | Roles: <span
+				sec:authentication="principal.authorities"></span>
+		</p>
+
 		<p>
 			Powered by <a href="https://projects.spring.io/spring-boot/">Spring
 				Boot</a> and <a href="https://www.thymeleaf.org">Thymeleaf</a>.
