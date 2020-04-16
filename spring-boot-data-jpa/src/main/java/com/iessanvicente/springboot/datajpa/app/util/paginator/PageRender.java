@@ -5,46 +5,65 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
-import lombok.Getter;
-
-@Getter
 public class PageRender<T> {
+	
 	private String url;
 	private Page<T> page;
+	
 	private int totalPaginas;
-	private int elementosPorPagina;
+	
+	private int numElementosPorPagina;
+	
 	private int paginaActual;
+	
 	private List<PageItem> paginas;
 	
 	public PageRender(String url, Page<T> page) {
 		this.url = url;
 		this.page = page;
-		this.elementosPorPagina = page.getSize();
-		this.totalPaginas = page.getTotalPages();
-		this.paginaActual = page.getNumber()+1;
-		paginas = new ArrayList<>();
+		this.paginas = new ArrayList<PageItem>();
 		
+		numElementosPorPagina = page.getSize();
+		totalPaginas = page.getTotalPages();
+		paginaActual = page.getNumber() + 1;
 		
 		int desde, hasta;
-		if(totalPaginas <= elementosPorPagina) {
+		if(totalPaginas <= numElementosPorPagina) {
 			desde = 1;
 			hasta = totalPaginas;
 		} else {
-			if(paginaActual <= elementosPorPagina/2) {
+			if(paginaActual <= numElementosPorPagina/2) {
 				desde = 1;
-				hasta = elementosPorPagina;
-			} else if (paginaActual >= totalPaginas-elementosPorPagina/2) {
-				desde = totalPaginas - elementosPorPagina+1;
-				hasta = elementosPorPagina;
+				hasta = numElementosPorPagina;
+			} else if(paginaActual >= totalPaginas - numElementosPorPagina/2 ) {
+				desde = totalPaginas - numElementosPorPagina + 1;
+				hasta = numElementosPorPagina;
 			} else {
-				desde = paginaActual - elementosPorPagina/2;
-				hasta = elementosPorPagina;
+				desde = paginaActual -numElementosPorPagina/2;
+				hasta = numElementosPorPagina;
 			}
 		}
 		
-		for(int i = 0 ; i < hasta; i++) {
-			paginas.add(new PageItem(desde+i, paginaActual == desde+i));
+		for(int i=0; i < hasta; i++) {
+			paginas.add(new PageItem(desde + i, paginaActual == desde+i));
 		}
+
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public int getTotalPaginas() {
+		return totalPaginas;
+	}
+
+	public int getPaginaActual() {
+		return paginaActual;
+	}
+
+	public List<PageItem> getPaginas() {
+		return paginas;
 	}
 	
 	public boolean isFirst() {
@@ -55,11 +74,12 @@ public class PageRender<T> {
 		return page.isLast();
 	}
 	
-	public boolean hasNext() {
+	public boolean isHasNext() {
 		return page.hasNext();
 	}
 	
-	public boolean hasPrevious() {
+	public boolean isHasPrevious() {
 		return page.hasPrevious();
 	}
+
 }

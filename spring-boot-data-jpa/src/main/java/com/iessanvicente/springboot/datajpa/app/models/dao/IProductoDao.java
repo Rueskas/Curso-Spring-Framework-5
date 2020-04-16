@@ -5,11 +5,12 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import com.iessanvicente.springboot.datajpa.app.models.entities.Producto;
+import com.iessanvicente.springboot.datajpa.app.models.entity.Producto;
 
-public interface IProductoDao extends CrudRepository<Producto, Long> {
-	public List<Producto> findByNombreContainsIgnoreCase(String filter);
-	
+public interface IProductoDao extends CrudRepository<Producto, Long>{
+
 	@Query("select p from Producto p where p.nombre like %?1%")
-	public List<Producto> findByNombre(String filter);
+	public List<Producto> findByNombre(String term);
+	
+	public List<Producto> findByNombreLikeIgnoreCase(String term);
 }
