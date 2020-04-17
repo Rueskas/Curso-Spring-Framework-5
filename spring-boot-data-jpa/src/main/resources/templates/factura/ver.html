@@ -19,6 +19,9 @@
 						volver</a>
 					<a th:href="@{'/factura/ver/' + ${factura.id}(format=pdf)}"
 						class="btn btn-danger float-right btn-xs">PDF</a>
+						
+					<a th:href="@{'/factura/ver/' + ${factura.id}(format=xlsx)}"
+						class="btn btn-success float-right btn-xs mx-2">XLSX</a>
 				</h4>
 
 				<ul class="list-group my-2">
