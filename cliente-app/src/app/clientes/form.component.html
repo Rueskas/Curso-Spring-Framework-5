@@ -1,0 +1,38 @@
+<div class="card text-white bg-dark mb-3">
+	<div class="card-header">
+		<h1 class="title">Clientes</h1>
+	</div>
+	<div class="card-body">
+		<h5 class="card-title mb-4">{{cliente.id? 'Modificar Cliente' : 'Crear Cliente'}}</h5>
+		<form (submit)="send()">
+			<div class="form-group row">
+				<label for="nombre" class="col-form-label col-sm-2">Nombre</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" name="nombre" [(ngModel)]="cliente.nombre">
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label for="apellido" class="col-form-label col-sm-2">Apellido</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" name="apellido" [(ngModel)]="cliente.apellido">
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label for="email" class="col-form-label col-sm-2">Email</label>
+				<div class="col-sm-6">
+					<input type="email" class="form-control" name="email" [(ngModel)]="cliente.email">
+				</div>
+			</div>
+
+			<div class="form-group row">
+
+				<div class="col-sm-6">
+					<input type="submit" class="btn btn-primary" [value]="cliente.id? 'Modificar': 'Crear'">
+				</div>
+			</div>
+
+		</form>
+	</div>
+</div>

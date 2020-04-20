@@ -4,7 +4,8 @@
 	</div>
 	<div class="card-body">
 		<h5 class="card-title mb-4">Listado de Clientes</h5>
-		<table class="table table-striped">
+		<a routerLink='/clientes/form' class='btn btn-primary mb-4'>Crear Cliente</a>
+		<table class="table table-striped" *ngIf="clientes?.length > 0 else sinClientes">
 			<thead class="thead-dark">
 				<tr>
 					<th>Id</th>
@@ -12,6 +13,8 @@
 					<th>Apellido</th>
 					<th>Email</th>
 					<th>Fecha</th>
+					<th>Modificar</th>
+					<th>Eliminar</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -21,8 +24,21 @@
 					<td>{{cliente.apellido}}</td>
 					<td>{{cliente.email}}</td>
 					<td>{{cliente.createAt}}</td>
+					<td><a [routerLink]="['/clientes/form', cliente.id]" class="btn btn-warning">&raquo;</a></td>
+					<td>
+						<button class="btn btn-danger" (click)='delete(cliente.id)'>&Chi;</button>
+					</td>
 				</tr>
 			</tbody>
 		</table>
+		<ng-template #sinClientes>
+			<div class="card text-white bg-danger mb-3">
+				<div class="card-body">
+					<h5 class="card-title">Sin Información</h5>
+					<p class="card-text">No se ha encontrado ningún cliente para mostrar</p>
+				</div>
+			</div>
+		</ng-template>
+
 	</div>
 </div>
