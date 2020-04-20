@@ -7,7 +7,7 @@
 			<button class="btn btn-primary mx-2" (click)="mostrar()">Mostrar</button>
 			<button class="btn btn-danger mx-2" (click)="ocultar()">Ocultar</button>
 		</div>
-		<ul class="list-group list-group-lush" *ngIf="mostrando else cursosOculto">
+		<ul class="list-group" *ngIf="mostrando else cursosOculto">
 			<li class="list-group-item" *ngFor="let curso of listaCursos">{{curso}}</li>
 		</ul>
 		<ng-template #cursosOculto>

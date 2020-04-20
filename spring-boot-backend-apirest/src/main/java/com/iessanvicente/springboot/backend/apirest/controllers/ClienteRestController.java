@@ -1,10 +1,15 @@
 package com.iessanvicente.springboot.backend.apirest.controllers;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,7 +39,11 @@ public class ClienteRestController {
 	@GetMapping("/clientes/{id}")
 	public ResponseEntity<?> getOne(@PathVariable Long id) {
 		Cliente cliente = null;
-		cliente = clienteService.findById(id);
+		try {
+			cliente = clienteService.findById(id);
+		} catch(DataAccessException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 		if(cliente == null) {
 			return ResponseEntity.notFound().build();
 		} else {
@@ -43,8 +52,20 @@ public class ClienteRestController {
 	}
 	
 	@PostMapping("/clientes")
-	public ResponseEntity<?> save(@RequestBody Cliente cliente){
-		Cliente clienteGuardado = clienteService.save(cliente);
+	public ResponseEntity<?> save(@Valid @RequestBody Cliente cliente, BindingResult result){
+		if(result.hasErrors()) {
+			return ResponseEntity.badRequest().body(
+					result.getFieldErrors().stream()
+					.map(e -> e.getField().substring(0,1).toUpperCase()
+								+e.getField().substring(1) + " " +e.getDefaultMessage())
+					.collect(Collectors.toList()));
+		}
+		Cliente clienteGuardado = null;
+		try {
+			clienteGuardado = clienteService.save(cliente);
+		} catch(DataAccessException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 		if(clienteGuardado == null) {
 			return ResponseEntity.badRequest().build();
 		} else {
@@ -53,12 +74,26 @@ public class ClienteRestController {
 	}
 	
 	@PutMapping("/clientes/{id}")
-	public ResponseEntity<?> update(@RequestBody Cliente cliente, @PathVariable Long id){
+	public ResponseEntity<?> update(@Valid @RequestBody Cliente cliente, BindingResult result,
+			@PathVariable Long id){
+		if(result.hasErrors()) {
+			return ResponseEntity.badRequest().body(
+				result.getFieldErrors().stream()
+				.map(e -> e.getField().substring(0,1).toUpperCase()
+							+e.getField().substring(1) + " " +e.getDefaultMessage())
+				.collect(Collectors.toList()));
+		}
+		
 		if(!clienteService.exists(id)) {
 			return ResponseEntity.notFound().build();
 		} else {
 			cliente.setId(id);
-			Cliente clienteMod = clienteService.save(cliente);
+			Cliente clienteMod = null;
+			try {
+				 clienteMod = clienteService.save(cliente);
+			} catch(DataAccessException e) {
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			}
 			if(clienteMod == null) {
 				return ResponseEntity.badRequest().build();
 			} else {

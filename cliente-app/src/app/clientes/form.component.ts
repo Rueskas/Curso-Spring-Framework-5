@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 })
 export class FormComponent implements OnInit {
   public cliente: Cliente;
+  public errors: string[];
   constructor(
     private _clienteService: ClienteService,
     private _router: Router,
@@ -29,15 +30,27 @@ export class FormComponent implements OnInit {
 
   public send(): void {
     if (this.cliente.id) {
-      this._clienteService.putCliente(this.cliente).subscribe(res => {
-        Swal.fire('Cliente Modificado', `El cliente ${res.nombre} se ha modificado con éxito.`, 'success');
-        this._router.navigate(['/clientes']);
-      })
+      this._clienteService.putCliente(this.cliente).subscribe(
+        res => {
+          Swal.fire('Cliente Modificado', `El cliente ${res.nombre} se ha modificado con éxito.`, 'success');
+          this._router.navigate(['/clientes']);
+        },
+        error => {
+          console.log(error.error);
+          this.errors = error.error as string[];
+        }
+      )
     } else {
-      this._clienteService.postCliente(this.cliente).subscribe(res => {
-        Swal.fire('Cliente Creado', `El cliente ${res.nombre} se ha creado con éxito.`, 'success');
-        this._router.navigate(['/clientes']);
-      })
+      this._clienteService.postCliente(this.cliente).subscribe(
+        res => {
+          Swal.fire('Cliente Creado', `El cliente ${res.nombre} se ha creado con éxito.`, 'success');
+          this._router.navigate(['/clientes']);
+        },
+        error => {
+          console.log(error.error);
+          this.errors = error.error as string[];
+        }
+      )
     }
   }
 
