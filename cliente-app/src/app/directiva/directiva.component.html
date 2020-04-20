@@ -1,0 +1,22 @@
+<div class="card mb-3">
+	<div class="card-header">
+		<h1 class="title">Cursos</h1>
+	</div>
+	<div class="card-body">
+		<div class="mb-4">
+			<button class="btn btn-primary mx-2" (click)="mostrar()">Mostrar</button>
+			<button class="btn btn-danger mx-2" (click)="ocultar()">Ocultar</button>
+		</div>
+		<ul class="list-group list-group-lush" *ngIf="mostrando else cursosOculto">
+			<li class="list-group-item" *ngFor="let curso of listaCursos">{{curso}}</li>
+		</ul>
+		<ng-template #cursosOculto>
+			<div class="card text-white bg-danger mb-3">
+				<div class="card-body">
+					<h5 class="card-title">Oculto</h5>
+					<p class="card-text">No se puede visualizar los cursos</p>
+				</div>
+			</div>
+		</ng-template>
+	</div>
+</div>
